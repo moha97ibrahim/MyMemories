@@ -76,6 +76,7 @@
         android:padding="10dp">
 
         <CheckBox
+            android:id="@+id/checkEveryDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -85,6 +86,7 @@
             android:textColor="#ffffff" />
 
         <CheckBox
+            android:id="@+id/checkEveryMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -93,6 +95,7 @@
             android:textColor="#ffffff" />
 
         <CheckBox
+            android:id="@+id/checkEveryYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -111,6 +114,7 @@
         android:layout_alignParentBottom="true">
 
         <Button
+            android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -119,6 +123,7 @@
             android:textColor="@color/colorAccent" />
 
         <Button
+            android:id="@+id/btn_save"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
