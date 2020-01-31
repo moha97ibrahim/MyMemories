@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".ui.addEvents.AddEventsActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/event_type_layout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/event_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:hint="@string/title"
+                android:maxLines="1"
+                android:textColor="#ffffff"
+                android:textColorHint="#3A3A3A"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:inputType="text"/>
+
+            <EditText
+                android:id="@+id/event_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_title"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:hint="@string/subject"
+                android:maxLines="1"
+                android:textColor="#ffffff"
+                android:textColorHint="#3A3A3A"
+                android:textSize="25sp"
+                android:inputType="text"/>
+
+            <EditText
+                android:id="@+id/event_body"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_subject"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:hint="@string/message"
+                android:maxLines="15"
+                android:textColor="#ffffff"
+                android:textColorHint="#3A3A3A"
+                android:textSize="20sp"
+                android:inputType="textMultiLine"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/event_type_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@id/buton_layout"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorAccent"
+            android:text="@string/every_day"
+            android:textColor="#ffffff" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorAccent"
+            android:text="@string/monthly"
+            android:textColor="#ffffff" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/colorAccent"
+            android:text="@string/yearly"
+            android:textColor="#ffffff" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/buton_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/cancel"
+            android:textColor="@color/colorAccent" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/save"
+            android:textColor="@color/colorAccent" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

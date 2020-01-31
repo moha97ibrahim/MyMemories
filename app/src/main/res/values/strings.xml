@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">My Memories</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_write">Write</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="title">Title</string>
+    <string name="subject">Subject</string>
+    <string name="message">Message</string>
+    <string name="every_day">Every Day</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">yearly</string>
+</resources>
