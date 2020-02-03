@@ -9,16 +9,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flatplay.mymemories.MainActivity;
 import com.flatplay.mymemories.R;
 import com.flatplay.mymemories.db.DBContract;
-import com.google.android.material.snackbar.Snackbar;
 
 
 public class AddEventsActivity extends AppCompatActivity {
@@ -26,6 +27,7 @@ public class AddEventsActivity extends AppCompatActivity {
     private CheckBox everyDay, monthly, yearly;
     private Button cancel, save;
     private String title, subject, body, date;
+    private TextView eventDate;
 
 
     @Override
@@ -42,6 +44,8 @@ public class AddEventsActivity extends AppCompatActivity {
         yearly = findViewById(R.id.checkEveryYear);
         cancel = findViewById(R.id.btn_cancel);
         save = findViewById(R.id.btn_save);
+        eventDate = findViewById(R.id.event_date);
+
 
         //toolbar
         ActionBar actionBar = getSupportActionBar();
@@ -98,11 +102,12 @@ public class AddEventsActivity extends AppCompatActivity {
     private void saveEvent() {
         if (checkRequiredField() && checkEventStatus()) {
             ContentValues values = new ContentValues();
-            values.put(DBContract.event.COLUMN_EVENT_DATE, getDate());
+            values.put(DBContract.event.COLUMN_EVENT_DATE, getIntent().getStringExtra("DATE"));
             values.put(DBContract.event.COLUMN_EVENT_TITLE, title);
             values.put(DBContract.event.COLUMN_EVENT_SUBJECT, subject);
             values.put(DBContract.event.COLUMN_EVENT_BODY, body);
             values.put(DBContract.event.COLUMN_EVENT_STATUS, getStatus());
+            Log.e("hfdj", String.valueOf(values));
             Uri newUri = getContentResolver().insert(DBContract.event.CONTENT_URI, values);
 
             if (newUri == null) {
@@ -114,18 +119,6 @@ public class AddEventsActivity extends AppCompatActivity {
                 finish();
             }
         }
-    }
-
-    private String getDate() {
-        if (date == null) {
-            return date = getCurrentDate();
-        } else {
-            return date;
-        }
-    }
-
-    private String getCurrentDate() {
-        return null;
     }
 
 

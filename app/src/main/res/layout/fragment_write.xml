@@ -5,6 +5,34 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
 
+    <LinearLayout
+        android:id="@+id/layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="start">
+
+        <ImageButton
+            android:id="@+id/calendar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_calendar"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp" />
+
+        <TextView
+            android:id="@+id/date_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="January - 2020"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:textColor="#ffffff"
+            android:textSize="17sp"/>
+
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/text_home"
         android:layout_width="match_parent"
@@ -14,9 +42,9 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#6D6D6D"/>
 
     <com.github.sundeepk.compactcalendarview.CompactCalendarView
         android:id="@+id/compactcalendar_view"
@@ -24,6 +52,7 @@
         android:layout_height="250dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:layout_below="@id/layout_top"
         app:compactCalendarBackgroundColor="#000000"
         app:compactCalendarCurrentDayBackgroundColor="#FF5722"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#AFAFAF"
@@ -39,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/compactcalendar_view"
-        android:divider="@android:color/darker_gray"
+        android:divider="#1B1B1B"
         android:dividerHeight="1dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
