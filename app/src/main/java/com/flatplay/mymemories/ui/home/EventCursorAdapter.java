@@ -1,6 +1,7 @@
 package com.flatplay.mymemories.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,11 @@ import androidx.cardview.widget.CardView;
 
 import com.flatplay.mymemories.R;
 import com.flatplay.mymemories.db.DBContract;
+import com.flatplay.mymemories.ui.showEvent.ShowEventActivity;
 
 public class EventCursorAdapter extends CursorAdapter {
     private CardView eventCartItem;
-    private TextView title,subject;
-
+    private TextView title, subject;
 
 
     public EventCursorAdapter(Context context, Cursor c) {
@@ -38,13 +39,14 @@ public class EventCursorAdapter extends CursorAdapter {
         title.setText(cursor.getString(cursor.getColumnIndex(DBContract.event.COLUMN_EVENT_TITLE)));
         subject.setText(cursor.getString(cursor.getColumnIndex(DBContract.event.COLUMN_EVENT_SUBJECT)));
 
-
-
         eventCartItem.setTag(cursor.getPosition());
         eventCartItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context.getApplicationContext(),""+getItemId((Integer) v.getTag()),Toast.LENGTH_LONG).show();
+                Toast.makeText(context.getApplicationContext(), "" + getItemId((Integer) v.getTag()), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context.getApplicationContext(), ShowEventActivity.class);
+                intent.putExtra("id", ""+getItemId((Integer) v.getTag()));
+                context.startActivity(intent);
             }
         });
 

@@ -20,6 +20,10 @@ import android.widget.Toast;
 import com.flatplay.mymemories.MainActivity;
 import com.flatplay.mymemories.R;
 import com.flatplay.mymemories.db.DBContract;
+import com.flatplay.mymemories.db.DBHelper;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class AddEventsActivity extends AppCompatActivity {
@@ -28,12 +32,15 @@ public class AddEventsActivity extends AppCompatActivity {
     private Button cancel, save;
     private String title, subject, body, date;
     private TextView eventDate;
+    private DBHelper dbHelper;
+    private ArrayList<String> arrayList1 = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addevents);
+        dbHelper = new DBHelper(getApplicationContext());
 
 
         eventTitle = findViewById(R.id.event_title);
@@ -46,12 +53,23 @@ public class AddEventsActivity extends AppCompatActivity {
         save = findViewById(R.id.btn_save);
         eventDate = findViewById(R.id.event_date);
 
+        eventDate.setText(getIntent().getStringExtra("DATE"));
+
 
         //toolbar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Add Event");
 
-        Toast.makeText(AddEventsActivity.this, "" + getIntent().getStringExtra("DATE"), Toast.LENGTH_LONG).show();
+
+        try {
+            if (getIntent().getStringExtra("edit").equals("edit")) {
+                actionBar.setTitle("Update Event");
+                updateUI(getIntent().getStringExtra("id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +81,10 @@ public class AddEventsActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveEvent();
+                if (getIntent().getStringExtra("edit").equals("edit"))
+                    updateEvent();
+                else
+                    saveEvent();
             }
         });
 
@@ -93,6 +114,35 @@ public class AddEventsActivity extends AppCompatActivity {
 
     }
 
+
+    private void updateUI(String id) {
+
+        arrayList1 = dbHelper.getEvent(id);
+
+        eventDate.setText(arrayList1.get(0));
+
+        eventTitle.setText(arrayList1.get(1));
+
+        eventSubject.setText(arrayList1.get(2));
+
+        eventBody.setText(arrayList1.get(3));
+
+        switch (arrayList1.get(4)) {
+            case "DAY":
+                everyDay.setChecked(true);
+                break;
+            case "MONTH":
+                monthly.setChecked(true);
+                break;
+            case "YEAR":
+                yearly.setChecked(true);
+                break;
+        }
+
+        save.setText("Update");
+
+    }
+
     private void cancelEvent() {
         Intent intent = new Intent(AddEventsActivity.this, MainActivity.class);
         startActivity(intent);
@@ -118,6 +168,21 @@ public class AddEventsActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
+        }
+    }
+
+    private void updateEvent() {
+        if (checkRequiredField() && checkEventStatus()) {
+            ContentValues values = new ContentValues();
+            values.put(DBContract.event.COLUMN_EVENT_DATE, arrayList1.get(0));
+            values.put(DBContract.event.COLUMN_EVENT_TITLE, title);
+            values.put(DBContract.event.COLUMN_EVENT_SUBJECT, subject);
+            values.put(DBContract.event.COLUMN_EVENT_BODY, body);
+            values.put(DBContract.event.COLUMN_EVENT_STATUS, getStatus());
+            String[] id = {getIntent().getStringExtra("id")};
+            Log.e("dfsd", "for " + Arrays.toString(id) + values);
+            dbHelper.updateEvent(values, id);
+
         }
     }
 

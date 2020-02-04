@@ -11,7 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.addEvents.AddEventsActivity"></activity>
+        <activity
+            android:name=".ui.showEvent.ShowEventActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".ui.addEvents.AddEventsActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

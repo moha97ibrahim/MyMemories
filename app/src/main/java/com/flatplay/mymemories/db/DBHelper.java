@@ -1,8 +1,12 @@
 package com.flatplay.mymemories.db;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "event.db";
@@ -36,5 +40,32 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+
+    public ArrayList<String> getEvent(String id) {
+        ArrayList<String> arrayList1 = new ArrayList<>();
+        SQLiteDatabase database;
+        String query = "SELECT * FROM event WHERE " + DBContract.event._ID + "=" + id;
+        database = getReadableDatabase();
+        Cursor get = database.rawQuery(query, null);
+        get.moveToFirst();
+        while (get.isAfterLast() == false) {
+            arrayList1.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_DATE)));
+            arrayList1.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_TITLE)));
+            arrayList1.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_SUBJECT)));
+            arrayList1.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_BODY)));
+            arrayList1.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_STATUS)));
+            get.moveToNext();
+        }
+        return arrayList1;
+    }
+
+
+    public void updateEvent(ContentValues values,String[] id){
+        SQLiteDatabase database;
+        database = getWritableDatabase();
+        String where= DBContract.event._ID +" = ?";
+        database.update("event",values,where,id);
     }
 }
