@@ -23,6 +23,19 @@
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"/>
 
+        <TextView
+            android:id="@+id/show_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="false"
+            android:text="20/20/2020"
+            android:padding="5dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/text_ui"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
     </RelativeLayout>
 
     <ScrollView
@@ -48,39 +61,14 @@
                 android:textSize="25sp" />
 
 
-            <TextView
-                android:id="@+id/show_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/show_title"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:text="20/20/2020"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:textSize="15sp" />
+
 
             <TextView
                 android:id="@+id/show_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/show_date"
+                android:layout_below="@id/show_title"
                 android:layout_alignParentRight="true"
-                android:text="@string/sample_paragraph"
-                android:textAlignment="center"
-                android:textColor="#ffffff"
-                android:textDirection="firstStrong"
-                android:textSize="20sp" />
-
-
-            <TextView
-                android:id="@+id/show_"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/show_date"
-                android:layout_alignParentRight="true"
-                android:text="@string/sample_paragraph"
                 android:textAlignment="center"
                 android:textColor="#ffffff"
                 android:textDirection="firstStrong"
