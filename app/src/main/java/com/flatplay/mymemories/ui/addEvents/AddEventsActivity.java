@@ -24,6 +24,7 @@ import com.flatplay.mymemories.db.DBHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 
 public class AddEventsActivity extends AppCompatActivity {
@@ -34,6 +35,7 @@ public class AddEventsActivity extends AppCompatActivity {
     private TextView eventDate;
     private DBHelper dbHelper;
     private ArrayList<String> arrayList1 = new ArrayList<>();
+    private String UI = "";
 
 
     @Override
@@ -54,11 +56,13 @@ public class AddEventsActivity extends AppCompatActivity {
         eventDate = findViewById(R.id.event_date);
 
         eventDate.setText(getIntent().getStringExtra("DATE"));
+        UI = getIntent().getStringExtra("edit");
 
 
         //toolbar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Add Event");
+        eventDate.setText(getIntent().getStringExtra("DATE"));
 
 
         try {
@@ -81,7 +85,7 @@ public class AddEventsActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getIntent().getStringExtra("edit").equals("edit"))
+                if (Objects.equals(UI, "edit"))
                     updateEvent();
                 else
                     saveEvent();
@@ -182,7 +186,9 @@ public class AddEventsActivity extends AppCompatActivity {
             String[] id = {getIntent().getStringExtra("id")};
             Log.e("dfsd", "for " + Arrays.toString(id) + values);
             dbHelper.updateEvent(values, id);
-
+            Intent intent = new Intent(AddEventsActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 

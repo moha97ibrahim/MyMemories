@@ -62,10 +62,32 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public void updateEvent(ContentValues values,String[] id){
+    public void updateEvent(ContentValues values, String[] id) {
         SQLiteDatabase database;
         database = getWritableDatabase();
-        String where= DBContract.event._ID +" = ?";
-        database.update("event",values,where,id);
+        String where = DBContract.event._ID + " = ?";
+        database.update("event", values, where, id);
+    }
+
+    public ArrayList<ArrayList<String>> getEventByType(String status) {
+        ArrayList<ArrayList<String>> arrayList1 = new ArrayList<>();
+        ArrayList<String> arrayList2 = new ArrayList<>();
+        SQLiteDatabase database;
+        String query = "SELECT * FROM event WHERE " + DBContract.event.COLUMN_EVENT_STATUS + " = '" + status + "'";
+//        String query = "SELECT * FROM event ";
+        database = getReadableDatabase();
+        Cursor get = database.rawQuery(query, null);
+        get.moveToFirst();
+        while (!get.isAfterLast()) {
+            arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_DATE)));
+            arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_TITLE)));
+            arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_SUBJECT)));
+            arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_BODY)));
+            arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_STATUS)));
+            arrayList1.add(arrayList2);
+            arrayList2 = new ArrayList<>();
+            get.moveToNext();
+        }
+        return arrayList1;
     }
 }

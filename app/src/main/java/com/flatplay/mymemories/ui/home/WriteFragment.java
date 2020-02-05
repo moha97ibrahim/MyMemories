@@ -2,7 +2,9 @@ package com.flatplay.mymemories.ui.home;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +24,15 @@ import androidx.loader.content.Loader;
 
 import com.flatplay.mymemories.R;
 import com.flatplay.mymemories.db.DBContract;
+import com.flatplay.mymemories.db.DBHelper;
 import com.flatplay.mymemories.ui.addEvents.AddEventsActivity;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,9 +53,13 @@ public class WriteFragment extends Fragment implements LoaderManager.LoaderCallb
     private static final String DATE_FORMAT_4 = "dd/MM/yyyy";
     private ImageButton calendar;
     private boolean STATE = true;
+    private DBHelper dbHelper;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        dbHelper = new DBHelper(getContext());
+
         //toolbar
         activity = (AppCompatActivity) getActivity();
         actionBar = activity.getSupportActionBar();
@@ -94,6 +104,8 @@ public class WriteFragment extends Fragment implements LoaderManager.LoaderCallb
             }
         });
 
+        updateEventInCalendar();
+
         //hide and show calendar
         calendar = root.findViewById(R.id.calendar);
         calendar.setOnClickListener(new View.OnClickListener() {
@@ -122,8 +134,12 @@ public class WriteFragment extends Fragment implements LoaderManager.LoaderCallb
         callLoader(); //load Events
 
 
+
+
+
         return root;
     }
+
 
     private void callLoader() {
         getActivity().getSupportLoaderManager().restartLoader(0, null, this);
@@ -158,7 +174,8 @@ public class WriteFragment extends Fragment implements LoaderManager.LoaderCallb
                 DBContract.event._ID,
                 DBContract.event.COLUMN_EVENT_DATE,
                 DBContract.event.COLUMN_EVENT_SUBJECT,
-                DBContract.event.COLUMN_EVENT_TITLE
+                DBContract.event.COLUMN_EVENT_TITLE,
+                DBContract.event.COLUMN_EVENT_STATUS
 
         };
 
@@ -182,4 +199,65 @@ public class WriteFragment extends Fragment implements LoaderManager.LoaderCallb
         eventCursorAdapter.swapCursor(null);
 
     }
+
+    private void updateEventInCalendar() {
+        updateByYear();
+        updateByMonth();
+        updateByDay();
+    }
+
+
+    private void updateByYear(){
+        ArrayList<ArrayList<String>> arrayList1 = new ArrayList<>();
+        ArrayList<String> arrayList2 = new ArrayList<>();
+        arrayList1 = dbHelper.getEventByType("YEAR");
+        Event event = null;
+        for (int i = 0; i < arrayList1.size(); i++) {
+            Log.e("year", "" + arrayList2);
+            arrayList2 = arrayList1.get(i);
+            event = new Event(Color.RED, getTimeMillis(arrayList2.get(0)));
+            compactCalendarView.addEvent(event);
+        }
+    }
+
+
+    private void updateByMonth() {
+        ArrayList<ArrayList<String>> arrayList1 = new ArrayList<>();
+        ArrayList<String> arrayList2 = new ArrayList<>();
+        arrayList1 = dbHelper.getEventByType("MONTH");
+        Event event = null;
+        for (int i = 0; i < arrayList1.size(); i++) {
+            Log.e("year", "" + arrayList2);
+            arrayList2 = arrayList1.get(i);
+            event = new Event(Color.GREEN, getTimeMillis(arrayList2.get(0)));
+            compactCalendarView.addEvent(event);
+        }
+
+    }
+
+    private void updateByDay() {
+        ArrayList<ArrayList<String>> arrayList1 = new ArrayList<>();
+        ArrayList<String> arrayList2 = new ArrayList<>();
+        arrayList1 = dbHelper.getEventByType("DAY");
+        Event event = null;
+        for (int i = 0; i < arrayList1.size(); i++) {
+            Log.e("year", "" + arrayList2);
+            arrayList2 = arrayList1.get(i);
+            event = new Event(Color.BLUE, getTimeMillis(arrayList2.get(0)));
+            compactCalendarView.addEvent(event);
+        }
+    }
+
+    private long getTimeMillis(String dueDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = null;
+        try {
+            date = sdf.parse(dueDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
+    }
+
+
 }

@@ -3,6 +3,7 @@ package com.flatplay.mymemories.ui.home;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,13 @@ public class EventCursorAdapter extends CursorAdapter {
         subject = view.findViewById(R.id.list_event_subject);
         title.setText(cursor.getString(cursor.getColumnIndex(DBContract.event.COLUMN_EVENT_TITLE)));
         subject.setText(cursor.getString(cursor.getColumnIndex(DBContract.event.COLUMN_EVENT_SUBJECT)));
+        String eventType =  cursor.getString(cursor.getColumnIndex(DBContract.event.COLUMN_EVENT_STATUS));
+
+        View view1 = view.findViewById(R.id.event_color);
+
+        setEventColor(view1,eventType);
+
+
 
         eventCartItem.setTag(cursor.getPosition());
         eventCartItem.setOnClickListener(new View.OnClickListener() {
@@ -50,5 +58,14 @@ public class EventCursorAdapter extends CursorAdapter {
             }
         });
 
+    }
+
+    private void setEventColor(View view1, String eventType) {
+        if(eventType.equals("DAY"))
+            view1.setBackgroundColor(Color.BLUE);
+        if(eventType.equals("MONTH"))
+            view1.setBackgroundColor(Color.GREEN);
+        if(eventType.equals("YEAR"))
+            view1.setBackgroundColor(Color.RED);
     }
 }
