@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "210068757816",
+    "firebase_url": "https://my-memories-5a2ad.firebaseio.com",
+    "project_id": "my-memories-5a2ad",
+    "storage_bucket": "my-memories-5a2ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210068757816:android:db029d378fe194451035cd",
+        "android_client_info": {
+          "package_name": "com.flatplay.mymemories"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210068757816-ci0laudd06oeuomljqj75t9hndc98lmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flatplay.mymemories",
+            "certificate_hash": "3956d9cfdd9d7c1b5ca60e3496bc10b835c425fd"
+          }
+        },
+        {
+          "client_id": "210068757816-32bua8p4pv4p19f35c9ef4e38naaegen.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvd-PT1jxAR1GNqgXkuqk319WJoe_Ci4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210068757816-32bua8p4pv4p19f35c9ef4e38naaegen.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

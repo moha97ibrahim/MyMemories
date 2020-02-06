@@ -13,6 +13,20 @@ import android.widget.Toast;
 
 import com.flatplay.mymemories.MainActivity;
 import com.flatplay.mymemories.R;
+import com.flatplay.mymemories.ui.addEvents.AddEventsActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -20,7 +34,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private SignInButton googlesignInBtn;
     private FirebaseUser user;
-    private FirebaseFirestore firebaseFirestor;
     private GoogleSignInClient mGoogleSignInClient;
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -42,7 +55,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        firebaseFirestor = FirebaseFirestore.getInstance();
         if (user != null) {
             googlesignInBtn.setVisibility(View.INVISIBLE);
         }
@@ -99,14 +111,14 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                             boolean isNew = task.getResult().getAdditionalUserInfo().isNewUser();
                             initValues(isNew, user);
-                            Intent i = new Intent(GameLogoSplashScreen.this, MainActivity.class);
+                            Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
                             startActivity(i);
                             finish();
-                            Toast.makeText(GameLogoSplashScreen.this, "success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SplashScreenActivity.this, "success", Toast.LENGTH_SHORT).show();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(GameLogoSplashScreen.this, "failure", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SplashScreenActivity.this, "failure", Toast.LENGTH_SHORT).show();
 
                         }
 
