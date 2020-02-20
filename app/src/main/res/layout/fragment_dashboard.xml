@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
 
+
+
     <TextView
         android:id="@+id/text_dashboard"
         android:layout_width="match_parent"
@@ -14,7 +16,17 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:text="No Upcoming Events"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/dash_event_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#1B1B1B"
+        android:dividerHeight="1dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
