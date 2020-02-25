@@ -29,7 +29,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + DBContract.event.COLUMN_EVENT_SUBJECT + " TEXT,"
                 + DBContract.event.COLUMN_EVENT_BODY + " TEXT,"
                 + DBContract.event.COLUMN_EVENT_TYPE + " TEXT,"
-                + DBContract.event.COLUMN_EVENT_STATUS + " TEXT);";
+                + DBContract.event.COLUMN_EVENT_STATUS + " TEXT,"
+                + DBContract.event.COLUMN_EVENT_TIME_STAMP + " TEXT);";
 
 
         db.execSQL(SQL_CREATE_MOVIECREATING_TABLE);

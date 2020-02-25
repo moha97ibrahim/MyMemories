@@ -21,39 +21,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Back Up"
+            android:text="Remind Me  "
             android:layout_below="@id/view"
             android:textColor="#ffffff"
             android:textSize="20sp"
             />
 
         <TextView
-            android:id="@+id/account_connected"
+            android:id="@+id/time_to_remind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView"
             android:layout_marginStart="10dp"
-            android:text="flatplaystudio@gmail.com"
+            android:text="09.00 am"
             android:textColor="#B8B8B8"
             android:textSize="17sp" />
 
-        <Button
-            android:id="@+id/backUp_btn"
+        <Switch
+            android:id="@+id/remind_Switch"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
-            android:text="Back Up"
             android:layout_margin="10dp"
             android:layout_below="@id/view"
-            android:layout_alignParentRight="true"
-            android:background="#ffffff"/>
+            android:layout_alignParentRight="true" />
 
         <View
             android:id="@+id/view1"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#444444"
-            android:layout_below="@id/account_connected"
+            android:layout_below="@id/time_to_remind"
             android:layout_margin="10dp"/>
 
         <TextView

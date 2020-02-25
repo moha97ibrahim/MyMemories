@@ -1,30 +1,33 @@
 package com.flatplay.mymemories.ui.addEvents;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+        import androidx.appcompat.app.ActionBar;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import android.content.ContentValues;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.content.ContentValues;
+        import android.content.Intent;
+        import android.net.Uri;
+        import android.os.Bundle;
+        import android.text.TextUtils;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.CheckBox;
+        import android.widget.EditText;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.flatplay.mymemories.MainActivity;
-import com.flatplay.mymemories.R;
-import com.flatplay.mymemories.db.DBContract;
-import com.flatplay.mymemories.db.DBHelper;
+        import com.flatplay.mymemories.MainActivity;
+        import com.flatplay.mymemories.R;
+        import com.flatplay.mymemories.db.DBContract;
+        import com.flatplay.mymemories.db.DBHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+        import java.text.ParseException;
+        import java.text.SimpleDateFormat;
+        import java.util.ArrayList;
+        import java.util.Arrays;
+        import java.util.Date;
+        import java.util.Objects;
 
 
 public class AddEventsActivity extends AppCompatActivity {
@@ -161,6 +164,7 @@ public class AddEventsActivity extends AppCompatActivity {
             values.put(DBContract.event.COLUMN_EVENT_SUBJECT, subject);
             values.put(DBContract.event.COLUMN_EVENT_BODY, body);
             values.put(DBContract.event.COLUMN_EVENT_STATUS, getStatus());
+            values.put(DBContract.event.COLUMN_EVENT_TIME_STAMP, getTimeStamp(getIntent().getStringExtra("DATE")));
             Log.e("hfdj", String.valueOf(values));
             Uri newUri = getContentResolver().insert(DBContract.event.CONTENT_URI, values);
 
@@ -173,6 +177,17 @@ public class AddEventsActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    private String getTimeStamp(String date1) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = null;
+        try {
+            date = sdf.parse(date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(date.getTime());
     }
 
     private void updateEvent() {

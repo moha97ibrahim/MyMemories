@@ -21,11 +21,17 @@ import com.flatplay.mymemories.R;
 import com.flatplay.mymemories.db.DBContract;
 import com.google.firebase.auth.TwitterAuthCredential;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class DashboardFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
     private ListView dashEventListView;
     private DashboardCursorAdapter dashboardCursorAdapter;
+    private static final String DATE_FORMAT_4 = "dd/MM/yyyy";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,12 +58,16 @@ public class DashboardFragment extends Fragment implements LoaderManager.LoaderC
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        String selection = DBContract.event.COLUMN_EVENT_TIME_STAMP + " >=?";
+        String[] selectionArgs = new String[]{getCurrentFullDate()};
+
         String[] pro = {
                 DBContract.event._ID,
                 DBContract.event.COLUMN_EVENT_DATE,
                 DBContract.event.COLUMN_EVENT_SUBJECT,
                 DBContract.event.COLUMN_EVENT_TITLE,
-                DBContract.event.COLUMN_EVENT_STATUS
+                DBContract.event.COLUMN_EVENT_STATUS,
+                DBContract.event.COLUMN_EVENT_TIME_STAMP
 
         };
 
@@ -65,8 +75,8 @@ public class DashboardFragment extends Fragment implements LoaderManager.LoaderC
         return new CursorLoader(getActivity(),
                 DBContract.event.CONTENT_URI,
                 pro,
-                null,
-                null, ""+DBContract.event.COLUMN_EVENT_DATE+" ASC ");
+                selection,
+                selectionArgs, ""+DBContract.event.COLUMN_EVENT_TIME_STAMP+" ASC ");
     }
 
     @Override
@@ -79,5 +89,27 @@ public class DashboardFragment extends Fragment implements LoaderManager.LoaderC
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         dashboardCursorAdapter.swapCursor(null);
 
+    }
+
+    public static String getCurrentFullDate() {
+        Calendar calendar;
+        SimpleDateFormat dateFormat;
+        String date;
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat(DATE_FORMAT_4);
+        date = dateFormat.format(calendar.getTime());
+        date = String.valueOf(getTimeMillis(date));
+        return date;
+    }
+
+    private static long getTimeMillis(String dueDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = null;
+        try {
+            date = sdf.parse(dueDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
     }
 }

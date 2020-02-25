@@ -41,6 +41,8 @@ public class DBContract {
 
         public final static String COLUMN_EVENT_STATUS = "event_status";
 
+        public final static String COLUMN_EVENT_TIME_STAMP = "event_time_stamp";
+
 
     }
 }
