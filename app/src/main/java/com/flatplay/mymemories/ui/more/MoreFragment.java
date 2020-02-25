@@ -63,11 +63,6 @@ public class MoreFragment extends Fragment {
         });
 
 
-
-
-
-
-
         logoutBtn = root.findViewById(R.id.logOut_btn);
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +79,5 @@ public class MoreFragment extends Fragment {
     }
 
 
-    }
-
 }
+    
