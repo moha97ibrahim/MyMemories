@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.flatplay.mymemories.R;
 import com.flatplay.mymemories.ui.SplashAndLogIn.SplashScreenActivity;
 import com.flatplay.mymemories.utility.AlarmReceiver;
+import com.flatplay.mymemories.utility.NotifyService;
 import com.flatplay.mymemories.utility.TimePickerFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,6 +58,10 @@ public class MoreFragment extends Fragment implements TimePickerDialog.OnTimeSet
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
+
+        //=====================================================================================================================================
+
+        //=====================================================================================================================================
         timeToRemind = root.findViewById(R.id.time_to_remind);
         timeToRemind.setOnClickListener(new View.OnClickListener() {
             @Override

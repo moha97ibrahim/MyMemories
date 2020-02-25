@@ -28,6 +28,11 @@
 
         </activity>
 
+        <service
+            android:name = ".utility.NotifyService"
+            android:enabled = "true"
+            android:exported = "true" >
+        </service>
         <provider
             android:name=".db.DBProvider"
             android:authorities="com.flatplay.mymemories"
