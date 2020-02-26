@@ -46,6 +46,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <receiver android:name=".utility.Alarm"/>
+
 
     </application>
 
