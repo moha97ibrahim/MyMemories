@@ -63,7 +63,7 @@ public class MoreFragment extends Fragment {
     private Calendar calendar;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private static final String REMINDER_SWITCH = "REMINDER_SWITCH", ON = "on", OFF = "off";
+    private static final String SETTING = "SETTING", ON = "on", OFF = "off";
     private String REMIND_STATUS = "";
 
 
@@ -72,12 +72,16 @@ public class MoreFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_more, container, false);
 
         reminderOnOff = root.findViewById(R.id.remind_Switch);
-        sharedPreferences = getContext().getSharedPreferences(REMINDER_SWITCH, Context.MODE_PRIVATE);
+        timeToRemind = root.findViewById(R.id.time_to_remind);
+        sharedPreferences = getContext().getSharedPreferences(SETTING, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        REMIND_STATUS = sharedPreferences.getString(REMINDER_SWITCH, null);
-        Log.e(REMIND_STATUS, "" + REMIND_STATUS);
+        REMIND_STATUS = sharedPreferences.getString(SETTING, null);
         if (Objects.equals(REMIND_STATUS, ON)) {
             reminderOnOff.setChecked(true);
+        }
+        String DATE = sharedPreferences.getString("DATE", null);
+        if (DATE != null) {
+            timeToRemind.setText(DATE);
         }
 
 
@@ -88,19 +92,21 @@ public class MoreFragment extends Fragment {
         Intent intent = new Intent(getActivity(), Alarm.class);
         alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
         pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
-        timeToRemind = root.findViewById(R.id.time_to_remind);
+
         timeToRemind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                        Log.e("adfsd", "" + hourOfDay + "=" + minutes);
+                        Log.e("adfsd", "" + hourOfDay + ":" + minutes);
                         //createNotification();
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minutes);
                         timeToRemind.setText(hourOfDay + ":" + minutes);
-                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000, pendingIntent);
+                        reminderOnOff.setChecked(false);
+                        editor.putString("DATE", "" + hourOfDay + ":" + minutes);
+                        editor.apply();
                     }
                 }, hour, min, false);
                 timePickerDialog.show();
@@ -113,13 +119,14 @@ public class MoreFragment extends Fragment {
             public void onClick(View v) {
                 if (reminderOnOff.isChecked()) {
                     Toast.makeText(getContext(), "Remainder ON", Toast.LENGTH_SHORT).show();
-                    editor.putString(REMINDER_SWITCH, ON);
+                    editor.putString(SETTING, ON);
                     editor.apply();
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pendingIntent);
 
                 } else {
                     alarmManager.cancel(pendingIntent);
                     Toast.makeText(getContext(), "Remainder OFF", Toast.LENGTH_SHORT).show();
-                    editor.putString(REMINDER_SWITCH, OFF);
+                    editor.putString(SETTING, OFF);
                     editor.apply();
 
                 }
@@ -142,45 +149,7 @@ public class MoreFragment extends Fragment {
         return root;
     }
 
-    private void createNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, CHANNEL_NAME, importance);
-            //Boolean value to set if lights are enabled for Notifications from this Channel
-            notificationChannel.enableLights(true);
-            //Boolean value to set if vibration are enabled for Notifications from this Channel
-            notificationChannel.enableVibration(true);
-            //Sets the color of Notification Light
-            notificationChannel.setLightColor(Color.GREEN);
-            //Set the vibration pattern for notifications. Pattern is in milliseconds with the format {delay,play,sleep,play,sleep...}
-            notificationChannel.setVibrationPattern(new long[]{
-                    500,
-                    500,
-                    500,
-                    500,
-                    500
-            });
-            //Sets whether notifications from these Channel should be visible on Lockscreen or not
-            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
 
-        }
-
-        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.createNotificationChannel(notificationChannel);
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), NOTIFICATION_CHANNEL_ID);
-
-        builder.setContentTitle("This is heading");
-        builder.setContentText("This is description");
-        builder.setSmallIcon(R.mipmap.applogo3);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.applogo3));
-
-        Notification notification = builder.build();
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getActivity());
-        notificationManagerCompat.notify(NOTIFICATION_ID, notification);
-
-
-    }
 
 }
     

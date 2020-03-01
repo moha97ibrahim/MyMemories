@@ -156,7 +156,7 @@ public class WriteFragment extends Fragment implements LoaderManager.LoaderCallb
     }
 
 
-    public static String getCurrentFullDate() {
+    private static String getCurrentFullDate() {
         Calendar calendar;
         SimpleDateFormat dateFormat;
         String date;

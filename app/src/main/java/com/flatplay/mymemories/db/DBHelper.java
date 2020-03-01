@@ -75,11 +75,32 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<String> arrayList2 = new ArrayList<>();
         SQLiteDatabase database;
         String query = "SELECT * FROM event WHERE " + DBContract.event.COLUMN_EVENT_STATUS + " = '" + status + "'";
-//        String query = "SELECT * FROM event ";
         database = getReadableDatabase();
         Cursor get = database.rawQuery(query, null);
         get.moveToFirst();
         while (!get.isAfterLast()) {
+            arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_DATE)));
+            arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_TITLE)));
+            arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_SUBJECT)));
+            arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_BODY)));
+            arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_STATUS)));
+            arrayList1.add(arrayList2);
+            arrayList2 = new ArrayList<>();
+            get.moveToNext();
+        }
+        return arrayList1;
+    }
+
+
+    public ArrayList<ArrayList<String>> getCurrentEvent(long date)  {
+        ArrayList<ArrayList<String>> arrayList1 = new ArrayList<>();
+        ArrayList<String> arrayList2 = new ArrayList<>();
+        SQLiteDatabase database;
+        String query = "SELECT * FROM event WHERE " + DBContract.event.COLUMN_EVENT_TIME_STAMP + "=" + date ;
+        database = getReadableDatabase();
+        Cursor get = database.rawQuery(query, null);
+        get.moveToFirst();
+        while (get.isAfterLast() == false) {
             arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_DATE)));
             arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_TITLE)));
             arrayList2.add(get.getString(get.getColumnIndex(DBContract.event.COLUMN_EVENT_SUBJECT)));

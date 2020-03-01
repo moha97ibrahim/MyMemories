@@ -15,8 +15,15 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.flatplay.mymemories.R;
+import com.flatplay.mymemories.db.DBHelper;
 import com.flatplay.mymemories.ui.dashboard.DashboardFragment;
 import com.flatplay.mymemories.ui.more.MoreFragment;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -26,11 +33,15 @@ public class Alarm extends BroadcastReceiver {
     private int importance = NotificationManager.IMPORTANCE_DEFAULT;
     private NotificationChannel notificationChannel;
     public static final int NOTIFICATION_ID = 101;
+    private DBHelper dbHelper;
+    private static final String DATE_FORMAT_4 = "dd/MM/yyyy";
+    ArrayList<ArrayList<String>> arrayList1 = new ArrayList<>();
+    ArrayList<String> arrayList2 = new ArrayList<>();
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        dbHelper = new DBHelper(context);
         createNotification(context);
     }
 
@@ -66,23 +77,52 @@ public class Alarm extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
 
-        builder.setContentTitle("This is heading");
-        builder.setContentText("This is description");
+        builder.setContentTitle("You Have a Memories");
+        getBigText();
+        builder.setContentText(arrayList1.size() + " Events");
         builder.setSmallIcon(R.mipmap.applogo3);
         builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.applogo3));
         builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);
         builder.setStyle(new NotificationCompat.BigTextStyle()
-                .bigText("djksfdnmadjfnskdjhfnkdjhsfbkadgfk" +
-                        "fjkghsfhbvjdhbjkzhdfbvjhzbfjvhzjkfhvj" +
-                        "kzdhfbvjkzdfjkvhdjkhvfjkdhvjkdvfkvdfk" +
-                        "jzfdkfnzkjxnckjdkjdnkjnkvjn" +
-                        "jvhkjdhvjdvckjhdvfkdvdhvjd"));
+                .bigText(getBigText()));
 
         Notification notification = builder.build();
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(NOTIFICATION_ID, notification);
 
 
+    }
+
+    private String getBigText() {
+
+        arrayList1 = dbHelper.getCurrentEvent(getTimeMillis());
+        String message = "", event = "";
+        for (int i = 0; i < arrayList1.size(); i++) {
+            arrayList2 = arrayList1.get(i);
+            event = event + arrayList2.get(1) + "\n";
+        }
+        return message = event;
+    }
+
+    private static String getCurrentFullDate() {
+        Calendar calendar;
+        SimpleDateFormat dateFormat;
+        String date;
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat(DATE_FORMAT_4);
+        date = dateFormat.format(calendar.getTime());
+        return date;
+    }
+
+    private long getTimeMillis() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = null;
+        try {
+            date = sdf.parse(getCurrentFullDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
     }
 }
